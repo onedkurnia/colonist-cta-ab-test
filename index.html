@@ -3,33 +3,53 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <title>Colonist CTA A/B Test</title>
-
-    <link rel="stylesheet" href="styles/cta.css" />
+    <title>Colonist - Play Online</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/styles.css" />
   </head>
-
   <body>
-    <main class="cta-container">
-      <button
-        class="cta-button cta-primary"
-        id="joinRoomBtn"
-        aria-label="Join a game room"
-      >
-        <span class="cta-title">Play Now</span>
-        <span class="cta-subtitle">Jump into a live room</span>
+    <section class="hero-section">
+      <h1>Build. Trade. Settle.</h1>
+      <p>
+        Experience the classic strategy board game online with friends or
+        players worldwide.
+      </p>
+      <button id="cta-button" class="btn btn-primary btn-lg cta-button">
+        Play Now
       </button>
+    </section>
 
-      <button
-        class="cta-button cta-secondary"
-        id="spectateBtn"
-        aria-label="Watch top players"
-      >
-        <span class="cta-title">Spectate</span>
-        <span class="cta-subtitle">Watch the best players live</span>
-      </button>
-    </main>
+    <section class="features-section container">
+      <h2>Why Play Colonist?</h2>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="feature-card">
+            <h5>🎲 Classic Gameplay</h5>
+            <p>Faithful to the original board game you love.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="feature-card">
+            <h5>🌍 Multiplayer</h5>
+            <p>Play with friends or match with players around the globe.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="feature-card">
+            <h5>⚡ Fast & Free</h5>
+            <p>No downloads. Just open your browser and start playing.</p>
+          </div>
+        </div>
+      </div>
+    </section>
 
-    <script src="scripts/cta.js"></script>
+    <footer>
+      <p>&copy; 2025 Colonist. All rights reserved.</p>
+    </footer>
+
+    <script src="js/ab-test.js"></script>
   </body>
 </html>
