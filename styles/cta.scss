@@ -1,19 +1,38 @@
-// Variables
-$cta-radius: 16px;
-$cta-primary-bg: #e8922b;
-$cta-primary-hover: #d48325;
-$cta-secondary-bg: #2b7a8e;
-$cta-secondary-hover: #24697a;
+// Colors
+$cta-primary-gradient-start: #f0a830;
+$cta-primary-gradient-end: #d47a1e;
+$cta-primary-hover-start: #e89e28;
+$cta-primary-hover-end: #c06e18;
+
+$cta-secondary-bg: #5cb85c;
+$cta-secondary-hover: #4cae4c;
+
 $cta-text: #ffffff;
-$cta-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-$cta-shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.2);
-$cta-shadow-active: 0 2px 6px rgba(0, 0, 0, 0.12);
+
+// Shadows
+$cta-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+$cta-shadow-hover: 0 8px 28px rgba(0, 0, 0, 0.25);
+$cta-shadow-active: 0 2px 6px rgba(0, 0, 0, 0.15);
+
+// Shape
+$cta-radius: 18px;
+
+// Timing
+$cta-transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
 
 html, body {
   margin: 0;
   padding: 0;
   width: 100%;
   height: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+               "Helvetica Neue", Arial, sans-serif;
 }
 
 .cta-container {
@@ -24,10 +43,10 @@ html, body {
   width: 100%;
   height: 100%;
   padding: 24px;
-  box-sizing: border-box;
 }
 
 .cta-button {
+  position: relative;
   width: 100%;
   max-width: 500px;
   aspect-ratio: 5 / 2;
@@ -39,48 +58,75 @@ html, body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 20px 24px;
+  padding: 20px 28px;
   text-align: left;
+  color: $cta-text;
   font-family: inherit;
   box-shadow: $cta-shadow;
-  transition: background 0.2s ease,
-              transform 0.2s ease,
-              box-shadow 0.2s ease;
+  transition: $cta-transition;
 
+  // Hover — lift + glow
   &:hover {
-    transform: translateY(-3px);
+    transform: translateY(-4px) scale(1.02);
     box-shadow: $cta-shadow-hover;
+    filter: brightness(1.08);
   }
 
+  // Active — press down
   &:active {
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
     box-shadow: $cta-shadow-active;
+    transition-duration: 0.08s;
   }
 
+  // Keyboard focus
   &:focus-visible {
     outline: 3px solid #4a90d9;
-    outline-offset: 2px;
+    outline-offset: 3px;
+  }
+
+  // Loading state
+  &.is-loading {
+    pointer-events: none;
+    opacity: 0.85;
+
+    .cta-title,
+    .cta-subtitle {
+      opacity: 0.4;
+    }
+
+    .cta-loader {
+      display: block;
+    }
   }
 }
 
-// Primary — orange, top-left
 .cta-primary {
   grid-column: 1 / 2;
   grid-row: 1 / 2;
-  background: $cta-primary-bg;
-  color: $cta-text;
+  justify-self: start;
+  align-self: start;
+  background: linear-gradient(
+    180deg,
+    $cta-primary-gradient-start 0%,
+    $cta-primary-gradient-end 100%
+  );
 
   &:hover {
-    background: $cta-primary-hover;
+    background: linear-gradient(
+      180deg,
+      $cta-primary-hover-start 0%,
+      $cta-primary-hover-end 100%
+    );
   }
 }
 
-// Secondary — teal, bottom-right
 .cta-secondary {
   grid-column: 2 / 3;
   grid-row: 2 / 3;
+  justify-self: end;
+  align-self: end;
   background: $cta-secondary-bg;
-  color: $cta-text;
 
   &:hover {
     background: $cta-secondary-hover;
@@ -88,19 +134,43 @@ html, body {
 }
 
 .cta-title {
-  font-size: clamp(1rem, 2.5vw, 1.4rem);
+  font-size: clamp(1rem, 2.5vw, 1.5rem);
   font-weight: 700;
   line-height: 1.2;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  transition: opacity 0.2s ease;
 }
 
 .cta-subtitle {
-  margin-top: 4px;
-  font-size: clamp(0.75rem, 1.8vw, 0.95rem);
-  opacity: 0.85;
+  margin-top: 6px;
+  font-size: clamp(0.75rem, 1.6vw, 0.95rem);
+  font-weight: 400;
+  opacity: 0.9;
   line-height: 1.3;
+  transition: opacity 0.2s ease;
 }
 
-// Tablet
+.cta-loader {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 24px;
+  height: 24px;
+  margin: -12px 0 0 -12px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top-color: $cta-text;
+  border-radius: 50%;
+  animation: cta-spin 0.7s linear infinite;
+}
+
+@keyframes cta-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 @media (max-width: 768px) {
   .cta-container {
     gap: 16px;
@@ -112,7 +182,12 @@ html, body {
   }
 }
 
-// Small screens — single column stack
+@media (max-width: 600px) and (min-width: 481px) {
+  .cta-button {
+    aspect-ratio: 3 / 1;
+  }
+}
+
 @media (max-width: 480px) {
   .cta-container {
     grid-template-columns: 1fr;
@@ -127,11 +202,13 @@ html, body {
   .cta-primary {
     grid-column: 1;
     grid-row: 1;
+    justify-self: stretch;
   }
 
   .cta-secondary {
     grid-column: 1;
     grid-row: 2;
+    justify-self: stretch;
   }
 
   .cta-button {
