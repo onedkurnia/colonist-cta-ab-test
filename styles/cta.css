@@ -1,8 +1,15 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 html, body {
   margin: 0;
   padding: 0;
   width: 100%;
   height: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
 .cta-container {
@@ -13,91 +20,127 @@ html, body {
   width: 100%;
   height: 100%;
   padding: 24px;
-  box-sizing: border-box;
 }
 
 .cta-button {
+  position: relative;
   width: 100%;
   max-width: 500px;
-  aspect-ratio: 5 / 2;
+  aspect-ratio: 5/2;
   min-width: 0;
   overflow: hidden;
   border: none;
-  border-radius: 16px;
+  border-radius: 18px;
   cursor: pointer;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 20px 24px;
+  padding: 20px 28px;
   text-align: left;
+  color: #ffffff;
   font-family: inherit;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  transition: background 0.2s ease,
-              transform 0.2s ease,
-              box-shadow 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
-
 .cta-button:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.25);
+  filter: brightness(1.08);
 }
-
 .cta-button:active {
-  transform: translateY(0);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+  transform: translateY(0) scale(1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  transition-duration: 0.08s;
 }
-
 .cta-button:focus-visible {
   outline: 3px solid #4a90d9;
-  outline-offset: 2px;
+  outline-offset: 3px;
+}
+.cta-button.is-loading {
+  pointer-events: none;
+  opacity: 0.85;
+}
+.cta-button.is-loading .cta-title,
+.cta-button.is-loading .cta-subtitle {
+  opacity: 0.4;
+}
+.cta-button.is-loading .cta-loader {
+  display: block;
 }
 
 .cta-primary {
-  grid-column: 1 / 2;
-  grid-row: 1 / 2;
-  background: #e8922b;
-  color: #ffffff;
+  grid-column: 1/2;
+  grid-row: 1/2;
+  justify-self: start;
+  align-self: start;
+  background: linear-gradient(180deg, #f0a830 0%, #d47a1e 100%);
 }
-
 .cta-primary:hover {
-  background: #d48325;
+  background: linear-gradient(180deg, #e89e28 0%, #c06e18 100%);
 }
 
 .cta-secondary {
-  grid-column: 2 / 3;
-  grid-row: 2 / 3;
-  background: #2b7a8e;
-  color: #ffffff;
+  grid-column: 2/3;
+  grid-row: 2/3;
+  justify-self: end;
+  align-self: end;
+  background: #5cb85c;
 }
-
 .cta-secondary:hover {
-  background: #24697a;
+  background: #4cae4c;
 }
 
 .cta-title {
-  font-size: clamp(1rem, 2.5vw, 1.4rem);
+  font-size: clamp(1rem, 2.5vw, 1.5rem);
   font-weight: 700;
   line-height: 1.2;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  transition: opacity 0.2s ease;
 }
 
 .cta-subtitle {
-  margin-top: 4px;
-  font-size: clamp(0.75rem, 1.8vw, 0.95rem);
-  opacity: 0.85;
+  margin-top: 6px;
+  font-size: clamp(0.75rem, 1.6vw, 0.95rem);
+  font-weight: 400;
+  opacity: 0.9;
   line-height: 1.3;
+  transition: opacity 0.2s ease;
 }
 
+.cta-loader {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 24px;
+  height: 24px;
+  margin: -12px 0 0 -12px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: cta-spin 0.7s linear infinite;
+}
+
+@keyframes cta-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
 @media (max-width: 768px) {
   .cta-container {
     gap: 16px;
     padding: 16px;
   }
-
   .cta-button {
     padding: 16px 20px;
   }
 }
-
+@media (max-width: 600px) and (min-width: 481px) {
+  .cta-button {
+    aspect-ratio: 3/1;
+  }
+}
 @media (max-width: 480px) {
   .cta-container {
     grid-template-columns: 1fr;
@@ -108,17 +151,16 @@ html, body {
     min-height: 100%;
     align-content: center;
   }
-
   .cta-primary {
     grid-column: 1;
     grid-row: 1;
+    justify-self: stretch;
   }
-
   .cta-secondary {
     grid-column: 1;
     grid-row: 2;
+    justify-self: stretch;
   }
-
   .cta-button {
     max-width: 100%;
     aspect-ratio: auto;
